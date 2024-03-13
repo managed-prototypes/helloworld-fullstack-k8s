@@ -2,8 +2,8 @@
 
 ## Purpose
 
-- Create and set up 2 instances of a web server as DigitalOcean droplets
-- Set up a load balancer
+- Create and set up 2 instances of a web server k8s pods
+- Set up a load balancer in k8s
 - Set up a DNS record
 
 ## Development

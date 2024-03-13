@@ -18,7 +18,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.DO_S3_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_S3_SECRET_KEY }}
           TF_VAR_do_pat: ${{ secrets.DO_PAT }}
-          TF_VAR_do_ssh_pvt_key: ${{ secrets.DO_SSH_PVT_KEY }}
         run: |
           terraform init
           terraform destroy -auto-approve

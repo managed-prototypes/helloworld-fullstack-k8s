@@ -1,0 +1,44 @@
+_default:
+  @ just --list --unsorted
+
+# ------------------------- Deployment via CLI -------------------------
+
+# Init (fetch dependencies and state)
+init:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform init
+
+# Plan (dry run)
+plan:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform plan \
+    -var-file="local.tfvars"
+
+# Apply (deploy)
+apply:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform apply \
+    -auto-approve \
+    -var-file="local.tfvars"
+
+# Destroy
+destroy:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform destroy \
+    -auto-approve \
+    -var-file="local.tfvars"
+
+# Show the current state
+show:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform show
