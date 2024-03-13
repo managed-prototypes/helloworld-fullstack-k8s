@@ -19,13 +19,19 @@
 ```sh
 just terraform/init
 
-just terraform/plan
-
 just terraform/apply
 
-just terraform/show
-
 just terraform/destroy
+
+just # List all commands
+```
+
+For manual `kubectl` usage
+
+```sh
+just terraform/apply-and-kubectl
+
+just terraform/watch-pods
 ```
 
 - Open http://web-k8s.prototyping.quest

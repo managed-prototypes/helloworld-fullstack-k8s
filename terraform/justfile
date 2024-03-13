@@ -7,30 +7,30 @@ _default:
 init:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform init
+  export AWS_PROFILE=managed_prototypes
+  terraform init
 
 # Init + upgrade state
 init-upgrade:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform init -upgrade
+  export AWS_PROFILE=managed_prototypes
+  terraform init -upgrade
 
 # Plan (dry run)
 plan:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform plan \
+  export AWS_PROFILE=managed_prototypes
+  terraform plan \
     -var-file="local.tfvars"
 
 # Apply (deploy)
 apply:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform apply \
+  export AWS_PROFILE=managed_prototypes
+  terraform apply \
     -auto-approve \
     -var-file="local.tfvars"
 
@@ -38,8 +38,8 @@ apply:
 destroy:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform destroy \
+  export AWS_PROFILE=managed_prototypes
+  terraform destroy \
     -auto-approve \
     -var-file="local.tfvars"
 
@@ -47,5 +47,23 @@ destroy:
 show:
   #!/bin/sh
   set -eu
-  AWS_PROFILE=managed_prototypes \
-    terraform show
+  export AWS_PROFILE=managed_prototypes
+  terraform show
+
+# Apply and save cluster configuration (for kubectl)
+apply-and-kubectl: 
+  #!/bin/sh
+  set -eu
+  export AWS_PROFILE=managed_prototypes
+  terraform apply \
+    -auto-approve \
+    -var-file="local.tfvars" \
+    -var="write_kubeconfig=true"
+
+# Get pods (using the cluster configuration)
+watch-pods: 
+  #!/bin/sh
+  set -eu
+  # export KUBECONFIG=$(terraform output -raw kubeconfig_path) # Note: returns absolute path, but requires AWS_PROFILE
+  export KUBECONFIG="./k8s-cluster-access.yaml"
+  watch kubectl get pods -n test

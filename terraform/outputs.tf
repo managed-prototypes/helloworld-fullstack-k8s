@@ -3,5 +3,5 @@ output "cluster_name" {
 }
 
 output "kubeconfig_path" {
-  value = var.write_kubeconfig ? abspath("${path.root}/kubeconfig") : "none"
+  value = var.write_kubeconfig ? abspath("${path.root}/k8s-cluster-access.yaml") : "none"
 }
