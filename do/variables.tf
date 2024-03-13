@@ -1,5 +1,5 @@
 variable "do_pat" {
-  
+  type = string
 }
 
 variable "cluster_version" {
