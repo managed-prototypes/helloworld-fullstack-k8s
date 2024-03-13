@@ -4,6 +4,14 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = "~> 2.36"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.27"
+    }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12"
+    }
   }
 
   backend "s3" {
@@ -24,3 +32,36 @@ terraform {
 provider "digitalocean" {
   token = var.do_pat
 }
+
+resource "random_id" "cluster_name" {
+  byte_length = 5
+}
+
+locals {
+  cluster_name = "tf-k8s-${random_id.cluster_name.hex}"
+}
+
+module "doks-cluster" {
+  source = "./doks-cluster"
+
+  do_pat = var.do_pat
+
+  cluster_name    = local.cluster_name
+  cluster_region  = "ams3"
+  cluster_version = var.cluster_version
+
+  worker_size  = var.worker_size
+  worker_count = var.worker_count
+}
+
+# module "kubernetes-config" {
+#   source           = "./kubernetes-config"
+
+#   do_pat = var.do_pat
+
+#   cluster_name     = module.doks-cluster.cluster_name
+#   cluster_id       = module.doks-cluster.cluster_id
+
+#   write_kubeconfig = var.write_kubeconfig
+# }
+

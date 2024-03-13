@@ -10,6 +10,13 @@ init:
   AWS_PROFILE=managed_prototypes \
     terraform init
 
+# Init + upgrade state
+init-upgrade:
+  #!/bin/sh
+  set -eu
+  AWS_PROFILE=managed_prototypes \
+    terraform init -upgrade
+
 # Plan (dry run)
 plan:
   #!/bin/sh
