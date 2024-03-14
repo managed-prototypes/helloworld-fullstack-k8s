@@ -4,10 +4,6 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = ">= 2.36.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = ">= 2.27.0"
-    }
     kubectl = {
       source  = "gavinbunney/kubectl"
       version = ">= 1.14"
@@ -42,21 +38,14 @@ provider "kubectl" {
   load_config_file       = false
 }
 
-resource "kubectl_manifest" "poop" {
-  # depends_on = ["kubectl_manifest.some_other"]
-  yaml_body        = file("${path.module}/namespace.yaml")
+resource "kubectl_manifest" "namespace" {
+  yaml_body = file("${path.module}/namespace.yaml")
 }
 
-
-
-provider "kubernetes" {
-  host  = data.digitalocean_kubernetes_cluster.primary.endpoint
-  token = data.digitalocean_kubernetes_cluster.primary.kube_config[0].token
-  cluster_ca_certificate = base64decode(
-    data.digitalocean_kubernetes_cluster.primary.kube_config[0].cluster_ca_certificate
-  )
+resource "kubectl_manifest" "web" {
+  depends_on = [kubectl_manifest.namespace]
+  yaml_body  = file("${path.module}/web.yaml")
 }
-
 
 provider "helm" {
   kubernetes {
@@ -68,14 +57,6 @@ provider "helm" {
   }
 }
 
-
-
-
-# resource "kubernetes_namespace" "test" {
-#   metadata {
-#     name = "test"
-#   }
-# }
 
 # # resource "kubernetes_deployment" "test" {
 # #   metadata {
