@@ -44,7 +44,7 @@ provider "kubectl" {
 
 resource "kubectl_manifest" "poop" {
   # depends_on = ["kubectl_manifest.some_other"]
-  yaml_body        = file("${path.module}/poop-ns.yaml")
+  yaml_body        = file("${path.module}/namespace.yaml")
 }
 
 
