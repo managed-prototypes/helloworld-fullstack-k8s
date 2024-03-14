@@ -6,9 +6,9 @@
 - [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) (for TF S3 backend support)
 - Configure AWS cli, using the `acces key` and `secret key` from DO
 
-      ```sh
-      aws configure --profile managed_prototypes
-      ```
+  ```sh
+  aws configure --profile managed_prototypes
+  ```
 
 - Get the `local.tfvars` file with DO PAT token to the team (with write access)
 - Just (for running commands)
@@ -31,7 +31,7 @@ For manual `kubectl` usage
 ```sh
 just terraform/apply-and-kubectl
 
-just terraform/watch-pods
+just terraform/check-kubectl
 ```
 
 - Open http://web-k8s.prototyping.quest

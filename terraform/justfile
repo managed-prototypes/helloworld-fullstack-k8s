@@ -61,9 +61,10 @@ apply-and-kubectl:
     -var="write_kubeconfig=true"
 
 # Get pods (using the cluster configuration)
-watch-pods: 
+check-kubectl: 
   #!/bin/sh
   set -eu
   # export KUBECONFIG=$(terraform output -raw kubeconfig_path) # Note: returns absolute path, but requires AWS_PROFILE
   export KUBECONFIG="./k8s-cluster-access.yaml"
-  watch kubectl get pods -n test
+  # watch kubectl get pods -n test
+  kubectl get ns
