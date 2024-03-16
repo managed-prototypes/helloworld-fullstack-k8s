@@ -38,15 +38,6 @@ provider "kubectl" {
   load_config_file       = false
 }
 
-resource "kubectl_manifest" "namespace" {
-  yaml_body = file("${path.module}/namespace.yaml")
-}
-
-resource "kubectl_manifest" "web" {
-  depends_on = [kubectl_manifest.namespace]
-  yaml_body  = file("${path.module}/web.yaml")
-}
-
 provider "helm" {
   kubernetes {
     host  = data.digitalocean_kubernetes_cluster.primary.endpoint
@@ -57,6 +48,23 @@ provider "helm" {
   }
 }
 
+data "http" "cert_manager_yaml" {
+  # Lastest version is listed here: https://github.com/cert-manager/cert-manager/releases/latest
+  url = "https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml"
+}
+
+resource "kubectl_manifest" "cert_manager" {
+  yaml_body = data.http.cert_manager_yaml.response_body
+}
+
+resource "kubectl_manifest" "namespace" {
+  yaml_body = file("${path.module}/namespace.yaml")
+}
+
+resource "kubectl_manifest" "web" {
+  depends_on = [kubectl_manifest.namespace]
+  yaml_body  = file("${path.module}/web.yaml")
+}
 
 # # resource "kubernetes_deployment" "test" {
 # #   metadata {
