@@ -1,5 +1,6 @@
 variable "do_pat" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "cluster_version" {

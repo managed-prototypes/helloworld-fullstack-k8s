@@ -49,11 +49,15 @@ module "doks-cluster" {
 module "kubernetes-config" {
   source = "./kubernetes-config"
 
-  do_pat = var.do_pat
+  do_pat              = var.do_pat
+  do_pat_cert_manager = var.do_pat_cert_manager
 
   cluster_name = module.doks-cluster.cluster_name
   cluster_id   = module.doks-cluster.cluster_id
 
   write_kubeconfig = var.write_kubeconfig
+
+  acme_email  = var.acme_email
+  acme_server = var.acme_server
 }
 

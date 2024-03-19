@@ -67,4 +67,8 @@ check-kubectl:
   # export KUBECONFIG=$(terraform output -raw kubeconfig_path) # Note: returns absolute path, but requires AWS_PROFILE
   export KUBECONFIG="./k8s-cluster-access.yaml"
   # watch kubectl get pods -n test
-  kubectl get ns
+  # kubectl get ns
+  # kubectl get pods -n web-k8s
+  kubectl get pods --all-namespaces
+  # kubectl get secrets --all-namespaces
+  # kubectl get all

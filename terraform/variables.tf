@@ -1,10 +1,16 @@
 variable "do_pat" {
-  type = string
+  type      = string
+  sensitive = true
+}
+
+variable "do_pat_cert_manager" {
+  type      = string
+  sensitive = true
 }
 
 variable "application_name" {
-  # Note: Will be used for DNS records, use hypens.
-  default = "web-k8s"
+  default     = "web-k8s"
+  description = "Will be used for DNS records, use hypens"
 }
 
 variable "cluster_version" {
@@ -20,6 +26,16 @@ variable "worker_size" {
 }
 
 variable "write_kubeconfig" {
-  type        = bool
-  default     = false
+  type    = bool
+  default = false
+}
+
+variable "acme_email" {
+  type        = string
+  default     = "vladimir@logachev.dev"
+}
+
+variable "acme_server" {
+  type        = string
+  default     = "https://acme-v02.api.letsencrypt.org/directory"
 }
