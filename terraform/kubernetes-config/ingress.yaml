@@ -1,9 +1,3 @@
-# Create a namespace
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: app
----
 # Set up Traefik routers and services
 apiVersion: networking.k8s.io/v1
 kind: Ingress

@@ -120,106 +120,110 @@ resource "kubectl_manifest" "web" {
 }
 
 
-# ======================== ingress
+# ======================== ingress traefik
 
-# resource "kubernetes_namespace" "traefik" {
-#   metadata {
-#     name = "traefik"
-#   }
-# }
-
-# resource "helm_release" "traefik" {
-#   depends_on = [kubernetes_namespace.traefik]
-#   name       = "traefik"
-#   repository = "https://traefik.github.io/charts"
-#   chart      = "traefik"
-#   version    = "26.0.0"
-#   namespace  = "traefik"
-# }
-
-# resource "kubectl_manifest" "ingress" {
-#   depends_on = [kubernetes_namespace.traefik, helm_release.traefik]
-#   yaml_body  = file("${path.module}/ingress.yaml") # TODO: incorrect import
-# }
-
-# data "digitalocean_loadbalancer" "example" {
-#   name = "web-k8s"
-# }
-
-# output "lb_output" {
-#   value = data.digitalocean_loadbalancer.example.ip
-# }
-
-# resource "digitalocean_record" "a_record" {
-#   domain = "prototyping.quest"
-#   type = "A"
-#   name = "web-k8s"
-#   value = "188.166.134.137" # TODO: use ingress IP address: kubectl get services -n traefik
-# }
-
-# ======================== ingress from dev.to article
-
-resource "kubernetes_namespace" "icnamespace" {
+resource "kubernetes_namespace" "traefik" {
   metadata {
-    name = "icnamespace"
+    name = "traefik"
   }
 }
 
-resource "helm_release" "icrelease" {
-  name       = "nginx-ingress"
-  repository = "https://kubernetes.github.io/ingress-nginx"
-  chart      = "ingress-nginx"
-  version    = "4.9.1"
-  namespace  = kubernetes_namespace.app.metadata[0].name # TODO: change
-
-  set {
-    name  = "controller.ingressClassResource.default"
-    value = "true"
-  }
+resource "helm_release" "traefik" {
+  depends_on = [kubernetes_namespace.traefik]
+  name       = "traefik"
+  repository = "https://traefik.github.io/charts"
+  chart      = "traefik"
+  version    = "26.0.0"
+  namespace  = "traefik"
 }
 
-resource "kubernetes_ingress_v1" "wwwingress" {
-  metadata {
-    name      = "wwwingress"
-    namespace = kubernetes_namespace.app.metadata[0].name
-  }
-
-  spec {
-    ingress_class_name = "nginx"
-
-    rule {
-      host = "web-k8s.prototyping.quest"
-
-      http {
-        path {
-          path      = "/"
-          path_type = "Prefix"
-
-          backend {
-            service {
-              name = "web-service"
-
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+data "kubectl_file_documents" "ingress" {
+  content = file("${path.module}/ingress.yaml")
 }
 
-data "kubernetes_service" "lbicservice" {
+resource "kubectl_manifest" "ingress" {
+  depends_on = [kubernetes_namespace.traefik, helm_release.traefik]
+  for_each   = data.kubectl_file_documents.ingress.manifests
+  yaml_body  = each.value
+}
+
+data "kubernetes_service_v1" "traefik_service" {
   metadata {
-    name      = "${helm_release.icrelease.name}-${helm_release.icrelease.chart}-controller"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    name = "traefik"
+    namespace = "traefik"
   }
 }
 
 resource "digitalocean_record" "a_record" {
   domain = "prototyping.quest"
-  type   = "A"
-  name   = "web-k8s"
-  value  = data.kubernetes_service.lbicservice.status[0].load_balancer[0].ingress[0].ip
+  type = "A"
+  name = "web-k8s"
+  value = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
 }
+
+# ======================== ingress nginx
+
+# resource "kubernetes_namespace" "icnamespace" {
+#   metadata {
+#     name = "icnamespace"
+#   }
+# }
+
+# resource "helm_release" "icrelease" {
+#   name       = "nginx-ingress"
+#   repository = "https://kubernetes.github.io/ingress-nginx"
+#   chart      = "ingress-nginx"
+#   version    = "4.9.1"
+#   namespace  = kubernetes_namespace.app.metadata[0].name # TODO: change
+
+#   set {
+#     name  = "controller.ingressClassResource.default"
+#     value = "true"
+#   }
+# }
+
+# resource "kubernetes_ingress_v1" "wwwingress" {
+#   metadata {
+#     name      = "wwwingress"
+#     namespace = kubernetes_namespace.app.metadata[0].name
+#   }
+
+#   spec {
+#     ingress_class_name = "nginx"
+
+#     rule {
+#       host = "web-k8s.prototyping.quest"
+
+#       http {
+#         path {
+#           path      = "/"
+#           path_type = "Prefix"
+
+#           backend {
+#             service {
+#               name = "web-service"
+
+#               port {
+#                 number = 80
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+
+# data "kubernetes_service" "lbicservice" {
+#   metadata {
+#     name      = "${helm_release.icrelease.name}-${helm_release.icrelease.chart}-controller"
+#     namespace = kubernetes_namespace.app.metadata[0].name
+#   }
+# }
+
+# resource "digitalocean_record" "a_record" {
+#   domain = "prototyping.quest"
+#   type   = "A"
+#   name   = "web-k8s"
+#   value  = data.kubernetes_service.lbicservice.status[0].load_balancer[0].ingress[0].ip
+# }

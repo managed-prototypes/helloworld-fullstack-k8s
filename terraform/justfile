@@ -80,6 +80,8 @@ check-kubectl:
   kubectl get Certificates --all-namespaces
   echo "================== secrets"
   kubectl get secrets --all-namespaces
+  echo "================== traefik service"
+  kubectl describe service traefik -n traefik
   # watch kubectl get certificates --all-namespaces
   # kubectl get ingress --all-namespaces
 
