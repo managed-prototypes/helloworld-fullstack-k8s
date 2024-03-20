@@ -3,4 +3,5 @@
 ## What to update
 
 - Terraform providers
-- Container images
+- Container images: nginx
+- Helm chart versions: traefik, cert-manager

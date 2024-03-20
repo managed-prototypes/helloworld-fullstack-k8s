@@ -2,9 +2,11 @@
 
 ## Purpose
 
-- Create and set up 2 instances of a web server k8s pods
-- Set up a load balancer in k8s
-- Set up a DNS record
+- Set up an app in a k8s cluster
+  - web server, 2 instances
+  - Load balancer
+  - `cert-manager` (for HTTPS)
+  - DNS record
 
 ## Development
 
