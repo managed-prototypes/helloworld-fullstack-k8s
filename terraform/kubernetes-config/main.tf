@@ -149,6 +149,7 @@ resource "kubectl_manifest" "ingress" {
 
 # Note: this requires k8s cluster to be running, otherwise plan/apply will fail.
 data "kubernetes_service_v1" "traefik_service" {
+  depends_on = [helm_release.traefik]
   metadata {
     name = "traefik"
     namespace = "traefik"
@@ -161,7 +162,6 @@ resource "digitalocean_record" "a_record" {
   name = "web-k8s"
   value = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
 }
-
 # ======================== ingress nginx
 
 # resource "kubernetes_namespace" "icnamespace" {
