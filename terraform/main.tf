@@ -34,7 +34,7 @@ locals {
 }
 
 module "doks-cluster" {
-  source = "./doks-cluster"
+  source = "./modules/doks-cluster"
 
   do_pat = var.do_pat
 
@@ -47,7 +47,7 @@ module "doks-cluster" {
 }
 
 module "kubernetes-config" {
-  source = "./kubernetes-config"
+  source = "./modules/kubernetes-config"
 
   do_pat              = var.do_pat
   do_pat_cert_manager = var.do_pat_cert_manager
