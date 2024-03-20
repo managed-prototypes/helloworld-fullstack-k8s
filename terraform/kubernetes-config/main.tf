@@ -147,84 +147,17 @@ resource "kubectl_manifest" "ingress" {
   yaml_body  = each.value
 }
 
-# Note: this requires k8s cluster to be running, otherwise plan/apply will fail.
 data "kubernetes_service_v1" "traefik_service" {
   depends_on = [helm_release.traefik]
   metadata {
-    name = "traefik"
+    name      = "traefik"
     namespace = "traefik"
   }
 }
 
 resource "digitalocean_record" "a_record" {
   domain = "prototyping.quest"
-  type = "A"
-  name = "web-k8s"
-  value = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
+  type   = "A"
+  name   = "web-k8s"
+  value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
 }
-# ======================== ingress nginx
-
-# resource "kubernetes_namespace" "icnamespace" {
-#   metadata {
-#     name = "icnamespace"
-#   }
-# }
-
-# resource "helm_release" "icrelease" {
-#   name       = "nginx-ingress"
-#   repository = "https://kubernetes.github.io/ingress-nginx"
-#   chart      = "ingress-nginx"
-#   version    = "4.9.1"
-#   namespace  = kubernetes_namespace.app.metadata[0].name # TODO: change
-
-#   set {
-#     name  = "controller.ingressClassResource.default"
-#     value = "true"
-#   }
-# }
-
-# resource "kubernetes_ingress_v1" "wwwingress" {
-#   metadata {
-#     name      = "wwwingress"
-#     namespace = kubernetes_namespace.app.metadata[0].name
-#   }
-
-#   spec {
-#     ingress_class_name = "nginx"
-
-#     rule {
-#       host = "web-k8s.prototyping.quest"
-
-#       http {
-#         path {
-#           path      = "/"
-#           path_type = "Prefix"
-
-#           backend {
-#             service {
-#               name = "web-service"
-
-#               port {
-#                 number = 80
-#               }
-#             }
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
-
-# data "kubernetes_service" "lbicservice" {
-#   metadata {
-#     name      = "${helm_release.icrelease.name}-${helm_release.icrelease.chart}-controller"
-#     namespace = kubernetes_namespace.app.metadata[0].name
-#   }
-# }
-
-# resource "digitalocean_record" "a_record" {
-#   domain = "prototyping.quest"
-#   type   = "A"
-#   name   = "web-k8s"
-#   value  = data.kubernetes_service.lbicservice.status[0].load_balancer[0].ingress[0].ip
-# }
