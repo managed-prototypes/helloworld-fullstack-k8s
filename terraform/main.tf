@@ -52,17 +52,8 @@ module "kubernetes-config" {
 
 module "webapp" {
   source = "./applications/webapp"
-
   do_pat              = var.do_pat
-  do_pat_cert_manager = var.do_pat_cert_manager
-
   cluster_name = module.kubernetes-cluster.cluster_name
-  cluster_id   = module.kubernetes-cluster.cluster_id
-
-  write_kubeconfig = var.write_kubeconfig
-
-  acme_email  = var.acme_email
-  acme_server = var.acme_server
 }
 
 

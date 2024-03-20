@@ -19,20 +19,8 @@ terraform {
   }
 }
 
-provider "digitalocean" {
-  token = var.do_pat
-}
+# ======================== authenticating providers
 
-data "digitalocean_kubernetes_cluster" "primary" {
-  name = var.cluster_name
-}
-
-resource "local_file" "kubeconfig" {
-  depends_on = [var.cluster_id]
-  count      = var.write_kubeconfig ? 1 : 0
-  content    = data.digitalocean_kubernetes_cluster.primary.kube_config[0].raw_config
-  filename   = "${path.root}/kubernetes-cluster-access.yaml"
-}
 
 provider "kubernetes" {
   host  = data.digitalocean_kubernetes_cluster.primary.endpoint
@@ -57,6 +45,23 @@ provider "helm" {
       data.digitalocean_kubernetes_cluster.primary.kube_config[0].cluster_ca_certificate
     )
   }
+}
+
+# ======================== raw config
+
+provider "digitalocean" {
+  token = var.do_pat
+}
+
+data "digitalocean_kubernetes_cluster" "primary" {
+  name = var.cluster_name
+}
+
+resource "local_file" "kubeconfig" {
+  depends_on = [var.cluster_id]
+  count      = var.write_kubeconfig ? 1 : 0
+  content    = data.digitalocean_kubernetes_cluster.primary.kube_config[0].raw_config
+  filename   = "${path.root}/kubernetes-cluster-access.yaml"
 }
 
 # ======================== cert manager
@@ -100,25 +105,6 @@ resource "kubectl_manifest" "clusterissuer" {
   for_each   = data.kubectl_file_documents.clusterissuer.manifests
   yaml_body  = each.value
 }
-
-# ======================== app
-
-resource "kubernetes_namespace" "app" {
-  metadata {
-    name = "app"
-  }
-}
-
-data "kubectl_file_documents" "web" {
-  content = file("${path.module}/web.yaml")
-}
-
-resource "kubectl_manifest" "web" {
-  depends_on = [kubernetes_namespace.app]
-  for_each   = data.kubectl_file_documents.web.manifests
-  yaml_body  = each.value
-}
-
 
 # ======================== ingress traefik
 

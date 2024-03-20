@@ -64,12 +64,7 @@ apply-and-kubectl:
 check-kubectl: 
   #!/bin/sh
   set -eu
-  # export KUBECONFIG=$(terraform output -raw kubeconfig_path) # Note: returns absolute path, but requires AWS_PROFILE
   export KUBECONFIG="./kubernetes-cluster-access.yaml"
-  # watch kubectl get pods -n test
-  # kubectl get ns
-  # kubectl get pods -n web-k8s
-  # kubectl get all
   echo "================== namespaces"
   kubectl get ns
   echo "================== services"
@@ -78,11 +73,5 @@ check-kubectl:
   kubectl get pods --all-namespaces
   echo "================== Certificates"
   kubectl get Certificates --all-namespaces
-  echo "================== secrets"
-  kubectl get secrets --all-namespaces
-  echo "================== traefik service"
-  kubectl describe service traefik -n traefik
-  # watch kubectl get certificates --all-namespaces
-  # kubectl get ingress --all-namespaces
 
   
