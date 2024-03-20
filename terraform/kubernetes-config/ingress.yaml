@@ -5,7 +5,6 @@ metadata:
   name: app-ingress
   namespace: app
   annotations:
-    service.beta.kubernetes.io/do-loadbalancer-name: "www-k8s"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     cert-manager.io/cluster-issuer: clusterissuer

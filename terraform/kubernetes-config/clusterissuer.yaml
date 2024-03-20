@@ -14,5 +14,5 @@ spec:
         dns01:
           digitalocean:
             tokenSecretRef:
-              name: lets-encrypt-do-dns
+              name: letsencrypt-do-dns
               key: access-token

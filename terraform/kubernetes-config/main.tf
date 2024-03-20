@@ -101,7 +101,7 @@ resource "kubectl_manifest" "clusterissuer" {
   yaml_body  = each.value
 }
 
-# ======================== www
+# ======================== app
 
 resource "kubernetes_namespace" "app" {
   metadata {
@@ -147,6 +147,7 @@ resource "kubectl_manifest" "ingress" {
   yaml_body  = each.value
 }
 
+# Note: this requires k8s cluster to be running, otherwise plan/apply will fail.
 data "kubernetes_service_v1" "traefik_service" {
   metadata {
     name = "traefik"
