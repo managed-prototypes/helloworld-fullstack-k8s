@@ -132,9 +132,17 @@ resource "kubectl_manifest" "ingress" {
   yaml_body  = file("${path.module}/ingress.yaml")
 }
 
-resource "digitalocean_record" "a_record" {
-  domain = "prototyping.quest"
-  type = "A"
-  name = "web-k8s"
-  value = "188.166.134.137" # TODO: use ingress IP address: kubectl get services -n traefik
-}
+# data "digitalocean_loadbalancer" "example" {
+#   name = "web-k8s"
+# }
+
+# output "lb_output" {
+#   value = data.digitalocean_loadbalancer.example.ip
+# }
+
+# resource "digitalocean_record" "a_record" {
+#   domain = "prototyping.quest"
+#   type = "A"
+#   name = "web-k8s"
+#   value = "188.166.134.137" # TODO: use ingress IP address: kubectl get services -n traefik
+# }

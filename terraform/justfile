@@ -74,3 +74,6 @@ check-kubectl:
   kubectl get pods --all-namespaces
   # kubectl get services -n traefik
   # kubectl get Certificates --all-namespaces
+  # watch kubectl get certificates --all-namespaces
+  # kubectl get ingress --all-namespaces
+  
