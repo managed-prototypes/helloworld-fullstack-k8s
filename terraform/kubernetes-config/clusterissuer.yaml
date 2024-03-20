@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: clusterissuer
+  namespace: cert-manager
+spec:
+  acme:
+    email: vladimir@logachev.dev
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: clusterissuer-account-key
+    solvers:
+      - selector: {}
+        dns01:
+          digitalocean:
+            tokenSecretRef:
+              name: lets-encrypt-do-dns
+              key: access-token

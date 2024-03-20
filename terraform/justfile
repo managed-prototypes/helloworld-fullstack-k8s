@@ -71,5 +71,6 @@ check-kubectl:
   # kubectl get pods -n web-k8s
   # kubectl get secrets --all-namespaces
   # kubectl get all
-  # kubectl get pods --all-namespaces
-  kubectl get Certificates --all-namespaces
+  kubectl get pods --all-namespaces
+  # kubectl get services -n traefik
+  # kubectl get Certificates --all-namespaces

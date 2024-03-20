@@ -59,6 +59,8 @@ provider "helm" {
   }
 }
 
+# ======================== cert manager
+
 resource "kubernetes_namespace" "certsnamespace" {
   metadata {
     name = "cert-manager"
@@ -89,46 +91,50 @@ resource "kubernetes_secret_v1" "letsencrypt_do_dns" {
   }
 }
 
+resource "kubectl_manifest" "clusterissuer" {
+  depends_on = [kubernetes_namespace.certsnamespace, helm_release.cert_manager_release]
+  yaml_body  = file("${path.module}/clusterissuer.yaml")
+}
 
-resource "kubernetes_manifest" "clusterissuer" {
-  manifest = {
-    apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
+# ======================== www
 
-    metadata = {
-      name = "clusterissuer"
-    }
-
-    spec = {
-      acme = {
-        email  = var.acme_email
-        server = var.acme_server
-
-        privateKeySecretRef = {
-          name = "clusterissuer-secret"
-          # name = "letsencrypt-issuer-account-key" # TODO: remove
-        }
-
-        solvers = [{
-          dns01 = {
-            digitalocean = {
-              tokenSecretRef = {
-                name = kubernetes_secret_v1.letsencrypt_do_dns.metadata[0].name
-                key  = "access-token"
-              }
-            }
-          }
-        }]
-      }
-    }
+resource "kubernetes_namespace" "app" {
+  metadata {
+    name = "app"
   }
 }
 
-resource "kubectl_manifest" "namespace" {
-  yaml_body = file("${path.module}/namespace.yaml")
+resource "kubectl_manifest" "web" {
+  depends_on = [kubernetes_namespace.app]
+  yaml_body  = file("${path.module}/web.yaml")
 }
 
-resource "kubectl_manifest" "web" {
-  depends_on = [kubectl_manifest.namespace]
-  yaml_body  = file("${path.module}/web.yaml")
+
+# ======================== ingress
+
+resource "kubernetes_namespace" "traefik" {
+  metadata {
+    name = "traefik"
+  }
+}
+
+resource "helm_release" "traefik" {
+  depends_on = [kubernetes_namespace.traefik]
+  name       = "traefik"
+  repository = "https://traefik.github.io/charts"
+  chart      = "traefik"
+  version    = "26.0.0"
+  namespace  = "traefik"
+}
+
+resource "kubectl_manifest" "ingress" {
+  depends_on = [kubernetes_namespace.traefik, helm_release.traefik]
+  yaml_body  = file("${path.module}/ingress.yaml")
+}
+
+resource "digitalocean_record" "a_record" {
+  domain = "prototyping.quest"
+  type = "A"
+  name = "web-k8s"
+  value = "188.166.134.137" # TODO: use ingress IP address: kubectl get services -n traefik
 }
