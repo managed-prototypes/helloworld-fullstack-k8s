@@ -1,7 +1,7 @@
 output "cluster_name" {
-  value = module.doks-cluster.cluster_name
+  value = module.kubernetes-cluster.cluster_name
 }
 
 output "kubeconfig_path" {
-  value = var.write_kubeconfig ? abspath("${path.root}/k8s-cluster-access.yaml") : "none"
+  value = var.write_kubeconfig ? abspath("${path.root}/kubernetes-cluster-access.yaml") : "none"
 }

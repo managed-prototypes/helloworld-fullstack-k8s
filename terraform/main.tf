@@ -1,11 +1,4 @@
 terraform {
-  required_providers {
-    digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "~> 2.36"
-    }
-  }
-
   backend "s3" {
     endpoints = {
       s3 = "https://ams3.digitaloceanspaces.com"
@@ -21,10 +14,6 @@ terraform {
   }
 }
 
-provider "digitalocean" {
-  token = var.do_pat
-}
-
 resource "random_id" "cluster_name" {
   byte_length = 5
 }
@@ -33,8 +22,8 @@ locals {
   cluster_name = "tf-k8s-${random_id.cluster_name.hex}"
 }
 
-module "doks-cluster" {
-  source = "./modules/doks-cluster"
+module "kubernetes-cluster" {
+  source = "./modules/kubernetes-cluster"
 
   do_pat = var.do_pat
 
@@ -52,12 +41,28 @@ module "kubernetes-config" {
   do_pat              = var.do_pat
   do_pat_cert_manager = var.do_pat_cert_manager
 
-  cluster_name = module.doks-cluster.cluster_name
-  cluster_id   = module.doks-cluster.cluster_id
+  cluster_name = module.kubernetes-cluster.cluster_name
+  cluster_id   = module.kubernetes-cluster.cluster_id
 
   write_kubeconfig = var.write_kubeconfig
 
   acme_email  = var.acme_email
   acme_server = var.acme_server
 }
+
+module "webapp" {
+  source = "./applications/webapp"
+
+  do_pat              = var.do_pat
+  do_pat_cert_manager = var.do_pat_cert_manager
+
+  cluster_name = module.kubernetes-cluster.cluster_name
+  cluster_id   = module.kubernetes-cluster.cluster_id
+
+  write_kubeconfig = var.write_kubeconfig
+
+  acme_email  = var.acme_email
+  acme_server = var.acme_server
+}
+
 

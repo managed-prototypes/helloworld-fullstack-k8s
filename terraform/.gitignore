@@ -34,4 +34,4 @@ override.tf.json
 terraform.rc
 
 # Ignore k8s cluster configuration for kubectl (contains tokens)
-k8s-cluster-access.yaml
+kubernetes-cluster-access.yaml
