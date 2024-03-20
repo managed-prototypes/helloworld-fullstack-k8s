@@ -69,11 +69,18 @@ check-kubectl:
   # watch kubectl get pods -n test
   # kubectl get ns
   # kubectl get pods -n web-k8s
-  # kubectl get secrets --all-namespaces
   # kubectl get all
+  echo "================== namespaces"
+  kubectl get ns
+  echo "================== services"
+  kubectl get services --all-namespaces
+  echo "================== pods"
   kubectl get pods --all-namespaces
-  # kubectl get services -n traefik
-  # kubectl get Certificates --all-namespaces
+  echo "================== Certificates"
+  kubectl get Certificates --all-namespaces
+  echo "================== secrets"
+  kubectl get secrets --all-namespaces
   # watch kubectl get certificates --all-namespaces
   # kubectl get ingress --all-namespaces
+
   

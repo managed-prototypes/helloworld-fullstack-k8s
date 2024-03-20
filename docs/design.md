@@ -12,5 +12,5 @@
 - TODO: how to tell what to and not to create with `kubernetes` provider
 - TODO: how to deal with outputs?
   - from ingress to DNS records
-- TODO: how to deal incorrect yamls for `kubectl` provider?
-  - how to get feedback as in actual `kubectl` CLI?
+- TODO: check that we can get a feedback from `kubectl` in case of errors
+- specify the only environment as an environment

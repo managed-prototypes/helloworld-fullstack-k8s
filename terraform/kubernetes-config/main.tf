@@ -91,9 +91,14 @@ resource "kubernetes_secret_v1" "letsencrypt_do_dns" {
   }
 }
 
+data "kubectl_file_documents" "clusterissuer" {
+  content = file("${path.module}/clusterissuer.yaml")
+}
+
 resource "kubectl_manifest" "clusterissuer" {
   depends_on = [kubernetes_namespace.certsnamespace, helm_release.cert_manager_release]
-  yaml_body  = file("${path.module}/clusterissuer.yaml")
+  for_each   = data.kubectl_file_documents.clusterissuer.manifests
+  yaml_body  = each.value
 }
 
 # ======================== www
@@ -104,9 +109,14 @@ resource "kubernetes_namespace" "app" {
   }
 }
 
+data "kubectl_file_documents" "web" {
+  content = file("${path.module}/web.yaml")
+}
+
 resource "kubectl_manifest" "web" {
   depends_on = [kubernetes_namespace.app]
-  yaml_body  = file("${path.module}/web.yaml")
+  for_each   = data.kubectl_file_documents.web.manifests
+  yaml_body  = each.value
 }
 
 
@@ -129,7 +139,7 @@ resource "kubectl_manifest" "web" {
 
 # resource "kubectl_manifest" "ingress" {
 #   depends_on = [kubernetes_namespace.traefik, helm_release.traefik]
-#   yaml_body  = file("${path.module}/ingress.yaml")
+#   yaml_body  = file("${path.module}/ingress.yaml") # TODO: incorrect import
 # }
 
 # data "digitalocean_loadbalancer" "example" {
@@ -160,7 +170,7 @@ resource "helm_release" "icrelease" {
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "4.9.1"
-  namespace  = kubernetes_namespace.icnamespace.metadata[0].name
+  namespace  = kubernetes_namespace.app.metadata[0].name # TODO: change
 
   set {
     name  = "controller.ingressClassResource.default"
@@ -203,7 +213,7 @@ resource "kubernetes_ingress_v1" "wwwingress" {
 data "kubernetes_service" "lbicservice" {
   metadata {
     name      = "${helm_release.icrelease.name}-${helm_release.icrelease.chart}-controller"
-    namespace = kubernetes_namespace.icnamespace.metadata[0].name
+    namespace = kubernetes_namespace.app.metadata[0].name
   }
 }
 
