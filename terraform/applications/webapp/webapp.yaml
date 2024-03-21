@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/managed-prototypes/fullstack-k8s-webapp:latest
+          image: ghcr.io/managed-prototypes/fullstack-k8s-webapp:sha-4643040
           imagePullPolicy: IfNotPresent
           # Note: cheap nodes may have problems with resources
           # resources:
@@ -34,6 +34,8 @@ spec:
               value: "https://test-subdomain-2-api.prototyping.quest"
             - name: WEBAPP_ALLOW_INDEXING
               value: "true"
+      imagePullSecrets:
+        - name: dockerconfigjson-ghcr
 ---
 apiVersion: v1
 kind: Service

@@ -19,6 +19,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_S3_SECRET_KEY }}
           TF_VAR_do_pat: ${{ secrets.DO_PAT }}
           TF_VAR_do_pat_cert_manager: ${{ secrets.DO_PAT_CERT_MANAGER }}
+          TF_VAR_ghcr_pat: ${{ secrets.GHCR_PAT }}
         run: |
           terraform init
           terraform apply -auto-approve

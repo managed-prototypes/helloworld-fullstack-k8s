@@ -8,6 +8,11 @@ variable "do_pat_cert_manager" {
   sensitive = true
 }
 
+variable "ghcr_pat" {
+  type      = string
+  sensitive = true
+}
+
 variable "cluster_version" {
   default = "1.29"
 }

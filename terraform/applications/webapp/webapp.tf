@@ -44,12 +44,30 @@ resource "kubernetes_namespace" "app" {
   }
 }
 
+resource "kubernetes_secret_v1" "dockerconfigjson-ghcr" {
+  metadata {
+    name      = "dockerconfigjson-ghcr"
+    namespace = kubernetes_namespace.app.metadata[0].name
+  }
+  type = "kubernetes.io/dockerconfigjson"
+
+  data = {
+    ".dockerconfigjson" = jsonencode({
+      "auths" = {
+        "https://ghcr.io" = {
+          "auth" : base64encode("${var.github_username}:${var.ghcr_pat}")
+        }
+      }
+    })
+  }
+}
+
 data "kubectl_file_documents" "webapp" {
   content = file("${path.module}/webapp.yaml")
 }
 
 resource "kubectl_manifest" "webapp" {
-  depends_on = [kubernetes_namespace.app]
+  depends_on = [kubernetes_namespace.app, kubernetes_secret_v1.dockerconfigjson-ghcr]
   for_each   = data.kubectl_file_documents.webapp.manifests
   yaml_body  = each.value
 }

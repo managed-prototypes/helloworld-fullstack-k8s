@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/managed-prototypes/fullstack-k8s-backend:latest
+          image: ghcr.io/managed-prototypes/fullstack-k8s-backend:sha-4643040
           imagePullPolicy: IfNotPresent
           # Note: cheap nodes may have problems with resources
           # resources:
@@ -29,6 +29,8 @@ spec:
           #     cpu: "0.2"
           ports:
             - containerPort: 8000
+      imagePullSecrets:
+        - name: dockerconfigjson-ghcr
 ---
 apiVersion: v1
 kind: Service
