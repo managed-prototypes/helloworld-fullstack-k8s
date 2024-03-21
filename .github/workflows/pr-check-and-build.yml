@@ -11,7 +11,7 @@ on:
       - synchronize
 
 permissions:
-  actions: write
+  packages: write
 
 env:
   REGISTRY: ghcr.io
