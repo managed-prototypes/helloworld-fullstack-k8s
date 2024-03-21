@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/cluster-issuer: clusterissuer
 spec:
   rules:
-    - host: web-k8s.prototyping.quest
+    - host: test-subdomain-1.prototyping.quest
       http:
         paths:
           - path: /
@@ -23,4 +23,4 @@ spec:
   tls:
     - secretName: web-service-cert
       hosts:
-        - web-k8s.prototyping.quest
+        - test-subdomain-1.prototyping.quest

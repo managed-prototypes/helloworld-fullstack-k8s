@@ -8,11 +8,6 @@ variable "do_pat_cert_manager" {
   sensitive = true
 }
 
-variable "application_name" {
-  default     = "web-k8s"
-  description = "Will be used for DNS records, use hypens"
-}
-
 variable "cluster_version" {
   default = "1.29"
 }
