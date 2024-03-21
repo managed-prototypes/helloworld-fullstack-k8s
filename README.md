@@ -12,6 +12,7 @@
 
 - [Design](docs/design.md)
 - [Prerequisites](docs/prerequisites.md)
+- [Dev Recipes](docs/dev-recipes.md)
 
 ## Processes
 

@@ -39,7 +39,7 @@ services:
       - backend
       #   condition: service_healthy
     environment:
-      - WEBAPP_BACKEND_URL=http://localhost:8001/api/graphql
+      - WEBAPP_BACKEND_URL=http://localhost:8001
       - WEBAPP_ALLOW_INDEXING=true
     logging:
       driver: "json-file"
