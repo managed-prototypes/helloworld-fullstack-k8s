@@ -34,4 +34,4 @@ just terraform/apply-and-kubectl
 just terraform/check-kubectl
 ```
 
-- Open http://test-subdomain-1.prototyping.quest
+- Open http://test-subdomain-2.prototyping.quest

@@ -12,7 +12,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: applications-cors-middleware@kubernetescrd
 spec:
   rules:
-    - host: test-subdomain-1-api.prototyping.quest
+    - host: test-subdomain-2-api.prototyping.quest
       http:
         paths:
           - path: /
@@ -25,7 +25,7 @@ spec:
   tls:
     - secretName: api-service-cert
       hosts:
-        - test-subdomain-1-api.prototyping.quest
+        - test-subdomain-2-api.prototyping.quest
 ---
 # Set up CORS middleware
 apiVersion: traefik.io/v1alpha1
@@ -42,7 +42,7 @@ spec:
     accessControlAllowHeaders:
       - "*"
     accessControlAllowOriginList:
-      - "https://test-subdomain-1.prototyping.quest"
+      - "https://test-subdomain-2.prototyping.quest"
     accessControlMaxAge: 86400 # How much will the preflight response (allowed methods and headers) be cached for, in seconds
     addVaryHeader: true # The browser caches what it knows about the API. It makes sense to let the browser know that the response may differ depending on the origin.
 ---
@@ -58,7 +58,7 @@ metadata:
     cert-manager.io/cluster-issuer: clusterissuer
 spec:
   rules:
-    - host: test-subdomain-1.prototyping.quest
+    - host: test-subdomain-2.prototyping.quest
       http:
         paths:
           - path: /
@@ -71,4 +71,4 @@ spec:
   tls:
     - secretName: web-service-cert
       hosts:
-        - test-subdomain-1.prototyping.quest
+        - test-subdomain-2.prototyping.quest

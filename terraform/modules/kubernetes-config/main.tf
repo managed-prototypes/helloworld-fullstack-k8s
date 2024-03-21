@@ -144,6 +144,6 @@ data "kubernetes_service_v1" "traefik_service" {
 resource "digitalocean_record" "a_record" {
   domain = "prototyping.quest"
   type   = "A"
-  name   = "test-subdomain-1"
+  name   = "test-subdomain-2"
   value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
 }

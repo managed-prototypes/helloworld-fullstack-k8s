@@ -31,7 +31,7 @@ spec:
             - containerPort: 80
           env:
             - name: WEBAPP_BACKEND_URL
-              value: "https://test-subdomain-1-api.prototyping.quest"
+              value: "https://test-subdomain-2-api.prototyping.quest"
             - name: WEBAPP_ALLOW_INDEXING
               value: "true"
 ---
