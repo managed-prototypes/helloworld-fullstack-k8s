@@ -74,6 +74,13 @@ check-kubectl:
   echo "================== Certificates"
   kubectl get Certificates --all-namespaces
 
+# Watch certs
+watch-certs: 
+  #!/bin/sh
+  set -eu
+  export KUBECONFIG="./kubernetes-cluster-access.yaml"
+  watch kubectl get Certificates --all-namespaces
+
 # List cert-manager logs for debugging purposes
 cert-manager-logs: 
   #!/bin/sh
