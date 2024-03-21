@@ -48,4 +48,4 @@ services:
 
 networks:
   localNetwork:
-    name: web-k8s-local-build
+    name: fullstack-k8s-local-build

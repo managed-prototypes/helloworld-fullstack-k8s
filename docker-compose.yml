@@ -12,4 +12,4 @@ services:
 
 networks:
   localNetwork:
-    name: web-k8s-local
+    name: fullstack-k8s-local
