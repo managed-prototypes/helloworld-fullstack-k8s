@@ -141,9 +141,16 @@ data "kubernetes_service_v1" "traefik_service" {
   }
 }
 
-resource "digitalocean_record" "a_record" {
+resource "digitalocean_record" "a_record_web" {
   domain = "prototyping.quest"
   type   = "A"
-  name   = "test-subdomain-2"
+  name   = "test-subdomain-5"
+  value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
+}
+
+resource "digitalocean_record" "a_record_backend" {
+  domain = "prototyping.quest"
+  type   = "A"
+  name   = "test-subdomain-5-api"
   value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
 }
