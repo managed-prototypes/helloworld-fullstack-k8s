@@ -87,4 +87,10 @@ cert-manager-logs:
   set -eu
   export KUBECONFIG="./kubernetes-cluster-access.yaml"
   kubectl logs -n cert-manager deployment/cert-manager --tail=30 -f
-  
+
+# k9s
+k9s: 
+  #!/bin/sh
+  set -eu
+  export KUBECONFIG="./kubernetes-cluster-access.yaml"
+  k9s

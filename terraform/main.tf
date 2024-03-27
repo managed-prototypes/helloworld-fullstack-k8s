@@ -51,7 +51,7 @@ module "kubernetes-config" {
 }
 
 module "webapp" {
-  source          = "./applications/webapp"
+  source          = "./modules/applications"
   do_pat          = var.do_pat
   ghcr_pat        = var.ghcr_pat
   cluster_name    = module.kubernetes-cluster.cluster_name

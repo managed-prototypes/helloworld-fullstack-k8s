@@ -3,10 +3,13 @@
 ## Purpose
 
 - Set up an app in a k8s cluster
-  - web server, 2 instances
   - Load balancer
   - `cert-manager` (for HTTPS)
-  - DNS record
+  - Fullstack app
+    - webapp, 2 instances
+    - backend, 2 instances
+    - Each app on its own subdomain, DNS records, CORS
+  - Local dev setup via `docker compose`
 
 ## Development
 

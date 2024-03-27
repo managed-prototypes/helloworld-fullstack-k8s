@@ -17,13 +17,12 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/managed-prototypes/fullstack-k8s-webapp:sha-4643040
+          image: ghcr.io/managed-prototypes/fullstack-k8s-webapp:sha-f8f23e0
           imagePullPolicy: IfNotPresent
-          # Note: cheap nodes may have problems with resources
           # resources:
           #   limits:
-          #     memory: 128Mi
-          #     cpu: "0.2"
+          #     memory: 512Mi
+          #     cpu: "0.5"
           #   requests:
           #     memory: 128Mi
           #     cpu: "0.2"
