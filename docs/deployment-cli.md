@@ -11,8 +11,8 @@
   ```
 
 - Get the `local.tfvars` file with DO PAT token to the team (with write access)
-- Just (for running commands)
-  - `brew install just`
+- [just](https://just.systems)
+- [k9s](https://k9scli.io)
 
 ## Usage
 
