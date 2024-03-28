@@ -24,7 +24,7 @@ resource "kubectl_manifest" "ingress" {
   yaml_body  = each.value
 }
 
-data "kubernetes_service_v1" "traefik_service" {
+data "kubernetes_service_v1" "traefik" {
   depends_on = [helm_release.traefik]
   metadata {
     name      = "traefik"
@@ -32,16 +32,16 @@ data "kubernetes_service_v1" "traefik_service" {
   }
 }
 
-resource "digitalocean_record" "a_record_web" {
+resource "digitalocean_record" "webapp" {
   domain = "prototyping.quest"
   type   = "A"
   name   = "test-subdomain-5"
-  value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
+  value  = data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip
 }
 
-resource "digitalocean_record" "a_record_backend" {
+resource "digitalocean_record" "backend" {
   domain = "prototyping.quest"
   type   = "A"
   name   = "test-subdomain-5-api"
-  value  = data.kubernetes_service_v1.traefik_service.status.0.load_balancer.0.ingress.0.ip
+  value  = data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip
 }

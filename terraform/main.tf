@@ -50,7 +50,7 @@ module "kubernetes-config" {
   acme_server = var.acme_server
 }
 
-module "webapp" {
+module "applications" {
   source          = "./modules/applications"
   do_pat          = var.do_pat
   ghcr_pat        = var.ghcr_pat

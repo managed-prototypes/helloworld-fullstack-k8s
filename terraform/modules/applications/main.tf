@@ -38,7 +38,7 @@ provider "kubectl" {
   load_config_file       = false
 }
 
-resource "kubernetes_namespace" "app" {
+resource "kubernetes_namespace" "applications" {
   metadata {
     name = "applications"
   }
@@ -47,7 +47,7 @@ resource "kubernetes_namespace" "app" {
 resource "kubernetes_secret_v1" "dockerconfigjson-ghcr" {
   metadata {
     name      = "dockerconfigjson-ghcr"
-    namespace = kubernetes_namespace.app.metadata[0].name
+    namespace = kubernetes_namespace.applications.metadata[0].name
   }
   type = "kubernetes.io/dockerconfigjson"
 
