@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/managed-prototypes/helloworld-fullstack-k8s-backend:sha-f8f23e0
+          image: ghcr.io/managed-prototypes/helloworld-fullstack-k8s-backend:main
           imagePullPolicy: IfNotPresent
           # resources:
           #   limits:
