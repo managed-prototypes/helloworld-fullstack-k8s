@@ -9,7 +9,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: "true"
     cert-manager.io/cluster-issuer: clusterissuer
     # For some reason, it was not possible to configure middleware for only one route
-    traefik.ingress.kubernetes.io/router.middlewares: applications-cors-middleware@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: applications-backend-cors-middleware@kubernetescrd
 spec:
   rules:
     - host: helloworld-api.prototyping.quest
@@ -23,7 +23,7 @@ spec:
                 port:
                   number: 8000
   tls:
-    - secretName: api-service-cert
+    - secretName: backend-cert
       hosts:
         - helloworld-api.prototyping.quest
 ---
@@ -31,7 +31,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: cors-middleware
+  name: backend-cors-middleware
   namespace: applications
 spec:
   headers:
@@ -69,6 +69,6 @@ spec:
                 port:
                   number: 80
   tls:
-    - secretName: web-service-cert
+    - secretName: webapp-cert
       hosts:
         - helloworld.prototyping.quest
