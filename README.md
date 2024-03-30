@@ -1,4 +1,4 @@
-# fullstack-k8s
+# helloworld-fullstack-k8s
 
 ## Purpose
 

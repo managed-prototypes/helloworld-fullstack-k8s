@@ -4,7 +4,7 @@ terraform {
       s3 = "https://ams3.digitaloceanspaces.com"
     }
     # Note: Specified here, because function calls and variables are not allowed for this configuration
-    key                         = "terraform/fullstack-k8s/terraform.tfstate"
+    key                         = "terraform/helloworld-fullstack-k8s/terraform.tfstate"
     bucket                      = "managed-prototypes"
     region                      = "us-east-1" # Note: Incorrect for DO, but the field is required by TF
     skip_requesting_account_id  = true

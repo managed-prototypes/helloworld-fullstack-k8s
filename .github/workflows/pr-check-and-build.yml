@@ -47,7 +47,7 @@ jobs:
         id: meta-backend
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/managed-prototypes/fullstack-k8s-backend
+          images: ${{ env.REGISTRY }}/managed-prototypes/helloworld-fullstack-k8s-backend
           tags: ${{ env.TAGS }}
 
       - name: Build and push Docker image (backend)
@@ -64,7 +64,7 @@ jobs:
         id: meta-webapp
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/managed-prototypes/fullstack-k8s-webapp
+          images: ${{ env.REGISTRY }}/managed-prototypes/helloworld-fullstack-k8s-webapp
           tags: ${{ env.TAGS }}
 
       - name: Build and push Docker image (webapp)

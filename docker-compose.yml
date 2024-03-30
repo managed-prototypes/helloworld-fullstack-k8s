@@ -12,4 +12,4 @@ services:
 
 networks:
   localNetwork:
-    name: fullstack-k8s-local
+    name: helloworld-fullstack-k8s-local

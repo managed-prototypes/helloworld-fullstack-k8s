@@ -48,4 +48,4 @@ services:
 
 networks:
   localNetwork:
-    name: fullstack-k8s-local-build
+    name: helloworld-fullstack-k8s-local-build
