@@ -35,13 +35,13 @@ data "kubernetes_service_v1" "traefik" {
 resource "digitalocean_record" "webapp" {
   domain = "prototyping.quest"
   type   = "A"
-  name   = "test-subdomain-5"
+  name   = "helloworld"
   value  = data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip
 }
 
 resource "digitalocean_record" "backend" {
   domain = "prototyping.quest"
   type   = "A"
-  name   = "test-subdomain-5-api"
+  name   = "helloworld-api"
   value  = data.kubernetes_service_v1.traefik.status.0.load_balancer.0.ingress.0.ip
 }

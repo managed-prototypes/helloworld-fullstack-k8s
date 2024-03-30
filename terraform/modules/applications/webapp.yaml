@@ -30,7 +30,7 @@ spec:
             - containerPort: 80
           env:
             - name: WEBAPP_BACKEND_URL
-              value: "https://test-subdomain-5-api.prototyping.quest"
+              value: "https://helloworld-api.prototyping.quest"
             - name: WEBAPP_ALLOW_INDEXING
               value: "true"
       imagePullSecrets:
