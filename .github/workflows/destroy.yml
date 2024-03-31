@@ -15,10 +15,10 @@ jobs:
       - name: Terraform init and destroy
         env:
           AWS_REGION: us-east-1 # doesn't matter for DigitalOcean, but required for AWS cli to work
-          AWS_ACCESS_KEY_ID: ${{ secrets.DO_S3_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_S3_SECRET_KEY }}
-          TF_VAR_do_pat: ${{ secrets.DO_PAT }}
-          TF_VAR_do_pat_cert_manager: ${{ secrets.DO_PAT_CERT_MANAGER }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.DO_S3_ACCESS_KEY_NONPROD }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DO_S3_SECRET_KEY_NONPROD }}
+          TF_VAR_do_pat: ${{ secrets.DO_PAT_NONPROD }}
+          TF_VAR_do_pat_cert_manager: ${{ secrets.DO_PAT_CERT_MANAGER_NONPROD }}
         run: |
           terraform init
           terraform destroy -auto-approve
