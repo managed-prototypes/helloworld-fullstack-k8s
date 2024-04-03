@@ -1,4 +1,4 @@
-name: Destroy
+name: Destroy staging
 
 on:
   # Run when triggered manually
