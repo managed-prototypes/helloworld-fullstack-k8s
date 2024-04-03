@@ -10,7 +10,7 @@
   aws configure --profile managed_prototypes
   ```
 
-- Get the `local.tfvars` file with DO PAT token to the team (with write access)
+- Get the `nonprod.tfvars` (and `prod.tfvars`) file with DO PAT token to the team (with write access)
 - [just](https://just.systems)
 - [k9s](https://k9scli.io)
 

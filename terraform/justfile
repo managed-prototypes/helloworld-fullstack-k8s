@@ -23,7 +23,7 @@ plan:
   set -eu
   export AWS_PROFILE=managed_prototypes
   terraform plan \
-    -var-file="local.tfvars"
+    -var-file="nonprod.tfvars"
 
 # Apply (deploy)
 apply:
@@ -32,7 +32,7 @@ apply:
   export AWS_PROFILE=managed_prototypes
   terraform apply \
     -auto-approve \
-    -var-file="local.tfvars"
+    -var-file="nonprod.tfvars"
 
 # Destroy
 destroy:
@@ -41,7 +41,7 @@ destroy:
   export AWS_PROFILE=managed_prototypes
   terraform destroy \
     -auto-approve \
-    -var-file="local.tfvars"
+    -var-file="nonprod.tfvars"
 
 # Show the current state
 show:
@@ -57,7 +57,7 @@ apply-and-kubectl:
   export AWS_PROFILE=managed_prototypes
   terraform apply \
     -auto-approve \
-    -var-file="local.tfvars" \
+    -var-file="nonprod.tfvars" \
     -var="write_kubeconfig=true"
 
 # Get pods (using the cluster configuration)
