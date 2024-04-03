@@ -16,7 +16,7 @@ resource "helm_release" "traefik" {
 
 resource "kubectl_manifest" "ingress_api" {
   depends_on = [helm_release.traefik]
-    yaml_body = <<YAML
+  yaml_body  = <<YAML
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -46,9 +46,10 @@ spec:
         - ${local.backend_fqdn}
 YAML
 }
+
 resource "kubectl_manifest" "ingress_api_cors_middleware" {
   depends_on = [helm_release.traefik, kubectl_manifest.ingress_api]
-    yaml_body = <<YAML
+  yaml_body  = <<YAML
 # Set up CORS middleware
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
@@ -69,9 +70,10 @@ spec:
     addVaryHeader: true # The browser caches what it knows about the API. It makes sense to let the browser know that the response may differ depending on the origin.
 YAML
 }
+
 resource "kubectl_manifest" "ingress_others" {
   depends_on = [helm_release.traefik]
-    yaml_body = <<YAML
+  yaml_body  = <<YAML
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
