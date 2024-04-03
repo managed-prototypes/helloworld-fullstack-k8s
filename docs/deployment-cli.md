@@ -7,7 +7,9 @@
 - Configure AWS cli, using the `acces key` and `secret key` from DO
 
   ```sh
-  aws configure --profile managed_prototypes
+  aws configure --profile managed_prototypes_nonprod
+
+  aws configure --profile managed_prototypes_prod
   ```
 
 - Get the `nonprod.tfvars` (and `prod.tfvars`) file with DO PAT token to the team (with write access)
