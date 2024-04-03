@@ -21,6 +21,9 @@ jobs:
           TF_VAR_do_pat: ${{ secrets.DO_PAT_NONPROD }}
           TF_VAR_do_pat_cert_manager: ${{ secrets.DO_PAT_CERT_MANAGER_NONPROD }}
           TF_VAR_ghcr_pat: ${{ secrets.GHCR_PAT }}
+          TF_VAR_base_domain: "prototyping.quest"
+          TF_VAR_backend_subdomain: "helloworld-staging-api"
+          TF_VAR_webapp_subdomain: "helloworld-staging"
         run: |
           terraform init
           terraform apply -auto-approve

@@ -20,6 +20,9 @@ plan:
   #!/bin/sh
   set -eu
   export AWS_PROFILE=managed_prototypes_nonprod
+  export TF_VAR_base_domain="prototyping.quest"
+  export TF_VAR_backend_subdomain="helloworld-staging-api"
+  export TF_VAR_webapp_subdomain="helloworld-staging"
   terraform plan \
     -var-file="nonprod.tfvars"
 
@@ -28,6 +31,9 @@ apply:
   #!/bin/sh
   set -eu
   export AWS_PROFILE=managed_prototypes_nonprod
+  export TF_VAR_base_domain="prototyping.quest"
+  export TF_VAR_backend_subdomain="helloworld-staging-api"
+  export TF_VAR_webapp_subdomain="helloworld-staging"
   terraform apply \
     -auto-approve \
     -var-file="nonprod.tfvars"
@@ -37,6 +43,9 @@ destroy:
   #!/bin/sh
   set -eu
   export AWS_PROFILE=managed_prototypes_nonprod
+  export TF_VAR_base_domain="prototyping.quest"
+  export TF_VAR_backend_subdomain="helloworld-staging-api"
+  export TF_VAR_webapp_subdomain="helloworld-staging"
   terraform destroy \
     -auto-approve \
     -var-file="nonprod.tfvars"
@@ -53,6 +62,9 @@ apply-and-kubectl:
   #!/bin/sh
   set -eu
   export AWS_PROFILE=managed_prototypes_nonprod
+  export TF_VAR_base_domain="prototyping.quest"
+  export TF_VAR_backend_subdomain="helloworld-staging-api"
+  export TF_VAR_webapp_subdomain="helloworld-staging"
   terraform apply \
     -auto-approve \
     -var-file="nonprod.tfvars" \

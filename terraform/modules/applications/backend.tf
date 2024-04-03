@@ -3,7 +3,7 @@ data "kubectl_file_documents" "backend" {
 }
 
 resource "kubectl_manifest" "backend" {
-  depends_on = [kubernetes_namespace.applications, kubernetes_secret_v1.dockerconfigjson-ghcr]
+  depends_on = [kubernetes_namespace.applications, kubernetes_secret_v1.dockerconfigjson_ghcr]
   for_each   = data.kubectl_file_documents.backend.manifests
   yaml_body  = each.value
 }

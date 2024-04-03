@@ -48,14 +48,22 @@ module "kubernetes-config" {
 
   acme_email  = var.acme_email
   acme_server = var.acme_server
+
+  base_domain       = var.base_domain
+  backend_subdomain = var.backend_subdomain
+  webapp_subdomain  = var.webapp_subdomain
 }
 
 module "applications" {
-  source          = "./modules/applications"
-  do_pat          = var.do_pat
-  ghcr_pat        = var.ghcr_pat
-  cluster_name    = module.kubernetes-cluster.cluster_name
-  github_username = "vladimirlogachev"
+  source            = "./modules/applications"
+  do_pat            = var.do_pat
+  ghcr_pat          = var.ghcr_pat
+  cluster_name      = module.kubernetes-cluster.cluster_name
+  github_username   = "vladimirlogachev"
+
+  base_domain       = var.base_domain
+  backend_subdomain = var.backend_subdomain
+  webapp_subdomain  = var.webapp_subdomain
 }
 
 

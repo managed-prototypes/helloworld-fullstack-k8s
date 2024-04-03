@@ -51,3 +51,8 @@ provider "helm" {
     )
   }
 }
+
+locals {
+  backend_fqdn = "${var.backend_subdomain}.${var.base_domain}"
+  webapp_fqdn = "${var.webapp_subdomain}.${var.base_domain}"
+}

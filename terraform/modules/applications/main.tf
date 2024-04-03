@@ -44,7 +44,7 @@ resource "kubernetes_namespace" "applications" {
   }
 }
 
-resource "kubernetes_secret_v1" "dockerconfigjson-ghcr" {
+resource "kubernetes_secret_v1" "dockerconfigjson_ghcr" {
   metadata {
     name      = "dockerconfigjson-ghcr"
     namespace = kubernetes_namespace.applications.metadata[0].name
@@ -60,4 +60,9 @@ resource "kubernetes_secret_v1" "dockerconfigjson-ghcr" {
       }
     })
   }
+}
+
+locals {
+  backend_fqdn = "${var.backend_subdomain}.${var.base_domain}"
+  webapp_fqdn = "${var.webapp_subdomain}.${var.base_domain}"
 }

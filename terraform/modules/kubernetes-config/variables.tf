@@ -30,3 +30,15 @@ variable "acme_server" {
   type        = string
   description = "Address used to configure ClusterIssuer for ACME cert request verification"
 }
+
+variable "base_domain" {
+  type = string
+}
+
+variable "backend_subdomain" {
+  type = string
+}
+
+variable "webapp_subdomain" {
+  type = string
+}

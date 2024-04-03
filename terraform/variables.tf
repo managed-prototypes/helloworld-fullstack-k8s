@@ -39,3 +39,15 @@ variable "acme_server" {
   type        = string
   default     = "https://acme-v02.api.letsencrypt.org/directory"
 }
+
+variable "base_domain" {
+  type = string
+}
+
+variable "backend_subdomain" {
+  type = string
+}
+
+variable "webapp_subdomain" {
+  type = string
+}
